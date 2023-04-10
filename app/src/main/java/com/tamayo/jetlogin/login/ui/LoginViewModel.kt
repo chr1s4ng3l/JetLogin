@@ -1,8 +1,6 @@
-package com.tamayo.jetlogin.login
+package com.tamayo.jetlogin.login.ui
 
 import android.util.Patterns
-import android.view.animation.Animation
-import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,7 +15,6 @@ class LoginViewModel : ViewModel() {
     val password: LiveData<String> = _password
 
     val isEnable = MutableLiveData<Boolean>()
-
 
     fun onLoginChanged(email: String, password: String) {
             _email.value = email

@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import com.tamayo.jetlogin.login.LoginScreen
-import com.tamayo.jetlogin.login.LoginViewModel
+import com.tamayo.jetlogin.login.ui.LoginScreen
+import com.tamayo.jetlogin.login.ui.LoginViewModel
 import com.tamayo.jetlogin.ui.theme.JetLoginTheme
 
 class MainActivity : ComponentActivity() {
