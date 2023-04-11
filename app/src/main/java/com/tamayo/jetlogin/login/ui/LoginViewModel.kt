@@ -4,7 +4,9 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.tamayo.jetlogin.login.domain.LoginUseCase
+import kotlinx.coroutines.launch
 
 
 class LoginViewModel : ViewModel() {
@@ -18,6 +20,7 @@ class LoginViewModel : ViewModel() {
     val password: LiveData<String> = _password
 
     val isEnable = MutableLiveData<Boolean>()
+    val isLoading = MutableLiveData<Boolean>()
 
     fun onLoginChanged(email: String, password: String) {
             _email.value = email
@@ -28,6 +31,19 @@ class LoginViewModel : ViewModel() {
 
     private fun enableLogin(email: String, password: String): Boolean =
         Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
+
+
+    fun unLoginSelected(){
+        viewModelScope.launch {
+            isLoading.value = true
+            val result = loginUseCase(email.value!!, password.value!!)
+            if (result){
+                //Navigation
+                println("Christopher")
+                isLoading.value = false
+            }
+        }
+    }
 
 
 

@@ -29,17 +29,26 @@ import com.tamayo.jetlogin.R
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel) {
     val activity = LocalContext.current as Activity
+    val isLoading by loginViewModel.isLoading.observeAsState(false)
 
     Box(
         Modifier
             .fillMaxSize()
             .padding(8.dp)
     ) {
-        Header(modifier = Modifier
-            .align(Alignment.TopEnd)
-            .clickable { activity.finish() })
-        Body(Modifier.align(Alignment.Center), loginViewModel)
-        Footer(Modifier.align(Alignment.BottomCenter))
+
+        if (isLoading) {
+            Box(modifier = Modifier
+                .fillMaxSize()){
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            }
+        } else {
+            Header(modifier = Modifier
+                .align(Alignment.TopEnd)
+                .clickable { activity.finish() })
+            Body(Modifier.align(Alignment.Center), loginViewModel)
+            Footer(Modifier.align(Alignment.BottomCenter))
+        }
     }
 
 }
@@ -94,7 +103,7 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
         Spacer(modifier = Modifier.size(8.dp))
         ForgotPassword(Modifier.align(Alignment.End))
         Spacer(modifier = Modifier.size(16.dp))
-        LoginEnable(isLoginEnable)
+        LoginEnable(isLoginEnable, loginViewModel)
         Spacer(modifier = Modifier.size(16.dp))
         LoginDivider()
         Spacer(modifier = Modifier.size(32.dp))
@@ -156,9 +165,9 @@ fun LoginDivider() {
 }
 
 @Composable
-fun LoginEnable(loginEnable: Boolean) {
+fun LoginEnable(loginEnable: Boolean, loginViewModel: LoginViewModel) {
     Button(
-        onClick = {},
+        onClick = { loginViewModel.unLoginSelected() },
         enabled = loginEnable,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = Color(0xFF4EA8E9),
@@ -231,7 +240,7 @@ fun Email(email: String, onTextChange: (String) -> Unit) {
         onValueChange = { onTextChange(it) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-        label = { Text(text = "Phone number, username or email") },
+        label = { Text(text = "Email") },
         modifier = Modifier.fillMaxWidth(),
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color(0xFFB2B2B2),
